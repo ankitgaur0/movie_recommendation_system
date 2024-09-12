@@ -1,0 +1,13 @@
+ipykernel
+pandas
+numpy
+matplotlib
+seaborn
+
+scikit-learn
+tensorflow[and-cuda]
+mlflow
+dvc
+Flask
+
+-e .
