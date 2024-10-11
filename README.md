@@ -28,5 +28,8 @@ This a movie information data set which contains the names of the movies ,rating
 
 ## Data Card
 - Size: 992715 rows * 27 columns
+- Datatypes
+
+
 | Variable Name | Role | Type | Description |
 |:--------------|:-----|:-----|:------------|
