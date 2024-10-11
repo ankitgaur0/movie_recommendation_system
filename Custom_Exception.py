@@ -9,4 +9,4 @@ class Custom_Exception(Exception):
         self.file_name=tb_exc.tb_frame.f_code.co_filename
 
     def __str__(self) -> str:
-        return f"the file name is :{self.line_num} \n the line number :{self.line_num} \n error : {str(self.erorr_message)}"
+        return f"the file name is :{self.file_name} \n the line number :{self.line_num} \n error : {str(self.erorr_message)}"
