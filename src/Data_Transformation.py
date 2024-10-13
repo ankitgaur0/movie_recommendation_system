@@ -170,34 +170,33 @@ class Text_to_vectorization_Strategy(Data_Transformation_Strategies):
         return " ".join(words)
     
 
-    def process_partition(self,partition):
-        vectors=self.cv.fit_transform(partition["tag"]).toarray()
+    def process_partition(self,df):
+        vectors=self.cv.fit_transform(df["tag"]).toarray()
         return vectors
 
 
     def initiate_transformation(self, feature_name:str):
-        if feature_name=="tag":
-            df[feature_name]=df[feature_name].apply(self.stemming_words)
-            #now convert the dataframe to dask.dataframe so that in futher we wouldn't get error like runs out of memory
-            dask_df=dd.from_pandas(df,npartitions=20)
+        try:
+            if feature_name=="tag":
+                chunk_size=50000
+                
+                df[feature_name]=df[feature_name].apply(self.stemming_words)
+                with open(vectors_data_path,"ab") as file_ref:
+                    num_chunks=len(df) //chunk_size +1
+                    for i in range(num_chunks):
+                        #get chunk
+                        chunk=df[i*chunk_size :(i+1)*chunk_size]
+                        #the text column 
+                        text_data=chunk["tag"].values
+                        #vectorize the text data 
+                        vectors=self.cv.fit_transform(text_data).toarray()
+                        # save this chunk (vector) in pickle file
+                        pickle.dump(vectors,file_ref)
 
-            #Now vectorization the textual data
-            # Apply to each partition and convert back to a Dask DataFrame
-            #meta-data
-            meta = pd.DataFrame(columns=[f"feature_{i}" for i in range(self.cv.max_features)])
-            vectors=dask_df.map_partitions(self.process_partition,meta=meta)
-            # Persist the result to ensure computation doesn't repeat unnecessarily
-            dask_transformed = vectors.persist()
-
-            print(dask_transformed.head())
-
-            #save the dask_transformed data to pickle file 
-
-            with open(vectors_data_path,"wb") as file_ref:
-                pickle.dump((vectors.compute()),file_ref)
-
-        return vectors
-    
+            return vectors
+        
+        except Exception as e:
+            raise Custom_Exception(e,sys)
 
 # Context class to change the strategy of Data_Transformation_Strategies
 #---------------------------------------------------------------------------------------------
