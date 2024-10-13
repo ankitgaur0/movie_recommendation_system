@@ -64,7 +64,7 @@ try:
     logging.info("preprcessing on top of data is start")
     #initializig the Data_Transformation clas and set the strategy.
     data_transformer=Data_Transformation(Basic_Transformation_strategy())
-    #data_transformer.set_strategy(strategy=Changing_data_format)
+
 
     columns_list=df.columns.tolist()
     for column in columns_list:
