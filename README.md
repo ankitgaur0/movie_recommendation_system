@@ -33,3 +33,35 @@ This a movie information data set which contains the names of the movies ,rating
 
 | Variable Name | Role | Type | Description |
 |:--------------|:-----|:-----|:------------|
+|Title | name of movies|object | this feature contains the names of the movies|
+|imdb_id| Unique id | categorical | each imdb_id represent the information of movies on imdb platform | 
+|budget |investment in $| int64 | represent the investment in movies|
+|revenue|total prrfilt in $| int64|total earning from the movie|
+
+
+
+# Installation
+This project uses 'python >=3.9'.Please ensure that the correct version is installed in your device.This project also works on Mac,Windows and Linux.
+
+# Prerequisities 
+1. git
+2. python >=3.9
+3. docker daemon/desktop is running
+
+# User Installation 
+The steps for User installtion are as follows:
+
+1. Clone repository on the local machine 
+'''
+git clone https://github.com/ankitgaur0/movie_recommendation_system.git
+'''
+2. Check your python version
+'''python
+python --version
+'''
+3. Check if you have enough space
+'''docker
+docker run --rm "debian:bullseye-slim" bash -c 'numfmt --to iec $(echo $(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE))))'
+'''
+
+<hr>
